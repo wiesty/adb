@@ -2,6 +2,8 @@
 
 Export-only backup client for InterNetX AutoDNS DomainRobot DNS zones.
 
+![AutoDNS Backup Client preview](.github/assets/preview.png)
+
 The client only reads existing zones and writes backups. It does not create, update, import, restore
 or delete AutoDNS zones. The authoritative backup is compressed JSON; BIND files and Git-friendly JSON
 files are additional export formats.
