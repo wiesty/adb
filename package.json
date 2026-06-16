@@ -33,7 +33,8 @@
     "tsx": "^4.16.5",
     "typescript": "^5.5.4",
     "typescript-eslint": "^8.61.1",
-    "vitest": "^2.0.5"
+    "vite": "^8.0.16",
+    "vitest": "^4.1.9"
   },
   "packageManager": "pnpm@9.6.0"
 }
