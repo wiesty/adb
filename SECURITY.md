@@ -67,5 +67,5 @@ sensitive.
 
 ## Public CI Warning
 
-Do not run production backups on public or untrusted CI runners. Use self-hosted runners you control,
-especially when accessing private LAN services such as MinIO.
+Do not run production backups on public or untrusted CI runners. Use runners and infrastructure you
+control.

@@ -81,10 +81,8 @@ wiki page names:
 - [Backup Format](docs/backup-format.md)
 - [Storage](docs/storage.md)
 - [Git Export](docs/git-export.md)
-- [MinIO](docs/minio.md)
-- [GitHub Actions](docs/github-actions.md)
 - [Operations](docs/operations.md)
-- [Security](SECURITY.md)
+- [Security](docs/security.md)
 
 ## Important Defaults
 
