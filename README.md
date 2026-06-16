@@ -72,17 +72,17 @@ autodns-backup restore-preview --zone example.com
 The extended documentation is written so each page can be copied directly into a GitHub Wiki. Suggested
 wiki page names:
 
-- [Home](docs/Home.md)
-- [Configuration](docs/configuration.md)
-- [Licensing](docs/licensing.md)
-- [Docker Image](docs/docker-image.md)
-- [AutoDNS API](docs/autodns-api.md)
-- [AutoDNS Permissions](docs/autodns-permissions.md)
-- [Backup Format](docs/backup-format.md)
-- [Storage](docs/storage.md)
-- [Git Export](docs/git-export.md)
-- [Operations](docs/operations.md)
-- [Security](docs/security.md)
+- [Home](https://github.com/wiesty/adb/wiki)
+- [Configuration](https://github.com/wiesty/adb/wiki/Configuration)
+- [Licensing](https://github.com/wiesty/adb/wiki/Licensing)
+- [Docker Image](https://github.com/wiesty/adb/wiki/Docker-Image)
+- [AutoDNS API](https://github.com/wiesty/adb/wiki/AutoDNS-API)
+- [AutoDNS Permissions](https://github.com/wiesty/adb/wiki/AutoDNS-Permissions)
+- [Backup Format](https://github.com/wiesty/adb/wiki/Backup-Format)
+- [Storage](https://github.com/wiesty/adb/wiki/Storage)
+- [Git Export](https://github.com/wiesty/adb/wiki/Git-Export)
+- [Operations](https://github.com/wiesty/adb/wiki/Operations)
+- [Security](https://github.com/wiesty/adb/wiki/Security)
 
 ## Important Defaults
 
