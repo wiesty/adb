@@ -14,7 +14,7 @@ RUN pnpm prune --prod
 FROM node:22-bookworm-slim AS runtime
 LABEL org.opencontainers.image.title="autodns-backup" \
   org.opencontainers.image.description="Export-only InterNetX AutoDNS DNS zone backup client" \
-  org.opencontainers.image.source="https://github.com/tenbyte/autodns-backup" \
+  org.opencontainers.image.source="https://github.com/wiesty/adb" \
   org.opencontainers.image.licenses="PolyForm-Internal-Use-1.0.0"
 ENV NODE_ENV=production \
   BACKUP_MODE=incremental \

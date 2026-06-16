@@ -19,6 +19,39 @@ files are additional export formats.
 
 ## Quickstart
 
+### Docker Image
+
+```bash
+docker pull ghcr.io/wiesty/adb:latest
+cp .env.example .env
+```
+
+Fill `.env`, then run a one-shot backup:
+
+```bash
+docker run --rm --env-file .env \
+  -e BACKUP_MODE=incremental \
+  -v autodns-data:/data \
+  -v "$PWD/backup:/backup" \
+  -v "$PWD/git-export:/git-export" \
+  ghcr.io/wiesty/adb:latest
+```
+
+Select the command with `BACKUP_MODE`:
+
+```env
+BACKUP_MODE=inventory
+BACKUP_MODE=incremental
+BACKUP_MODE=full
+BACKUP_MODE=verify
+BACKUP_MODE=status
+```
+
+The container is a private one-shot job. It exposes no ports and should not be run as a public
+service.
+
+### Local Development
+
 ```bash
 pnpm install
 pnpm build
@@ -33,24 +66,16 @@ node --experimental-sqlite dist/src/cli/index.js incremental
 node --experimental-sqlite dist/src/cli/index.js verify
 ```
 
-Docker:
+Local Docker build:
 
 ```bash
 docker build -t autodns-backup:latest .
 docker run --rm --env-file .env \
-  -v autodns-data:/data \
-  -v autodns-backup:/backup \
-  -v "$PWD/git-export:/git-export" \
-  autodns-backup:latest incremental
-```
-
-Published image usage:
-
-```bash
-docker run --rm --env-file .env \
   -e BACKUP_MODE=incremental \
   -v autodns-data:/data \
-  ghcr.io/<owner>/autodns-backup:latest
+  -v "$PWD/backup:/backup" \
+  -v "$PWD/git-export:/git-export" \
+  autodns-backup:latest
 ```
 
 ## CLI

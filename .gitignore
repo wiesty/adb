@@ -1,15 +1,15 @@
-node_modules/
-dist/
+/node_modules/
+/dist/
 coverage/
 .DS_Store
 .env
 *.sqlite
 *.sqlite-*
-data/
-backup/
+/data/
+/backup/
 .runner-data/
 .runner-work/
-work/
+/work/
 /docs
 
 /git-export
