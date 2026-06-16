@@ -62,7 +62,9 @@ const EnvSchema = z
     ALERT_WEBHOOK_URL: optionalString,
     LOG_LEVEL: z
       .enum(["fatal", "error", "warn", "info", "debug", "trace", "silent"])
-      .default("info")
+      .default("info"),
+    LOG_FORMAT: z.enum(["pretty", "json"]).default("pretty"),
+    LOG_BANNER: booleanFromEnv.default(true)
   })
   .superRefine((value, ctx) => {
     if (value.STORAGE_DRIVER === "s3") {

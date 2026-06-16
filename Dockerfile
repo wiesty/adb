@@ -31,5 +31,5 @@ COPY --from=build --chown=autodns:autodns /app/package.json ./package.json
 COPY --from=build --chown=autodns:autodns /app/node_modules ./node_modules
 USER autodns
 VOLUME ["/data", "/backup", "/git-export"]
-HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 CMD node --experimental-sqlite dist/src/cli/index.js status >/dev/null || exit 1
-ENTRYPOINT ["node", "--experimental-sqlite", "dist/src/cli/index.js"]
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 CMD node --no-warnings --experimental-sqlite dist/src/cli/index.js status >/dev/null || exit 1
+ENTRYPOINT ["node", "--no-warnings", "--experimental-sqlite", "dist/src/cli/index.js"]

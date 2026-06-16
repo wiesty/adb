@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { Command, Option } from "commander";
+import { loadDotEnvFile } from "../config/dotenv.js";
 import { openDatabase } from "../database/schema.js";
 import { BackupRepository } from "../database/repository.js";
 import { loadConfig, publicConfig } from "../config/config.js";
@@ -12,6 +13,7 @@ import { toAsciiDomain, zoneKey } from "../utils/path.js";
 import { gunzipJson } from "../utils/hash.js";
 import { exportBind } from "../bind/exporter.js";
 import { AutoDnsAuthError } from "../api/errors.js";
+import { renderStartupBanner } from "./banner.js";
 import { z } from "zod";
 
 const ExitCode = {
@@ -24,10 +26,13 @@ const ExitCode = {
   Storage: 6
 } as const;
 
+loadDotEnvFile();
+
 async function withContext<T>(
   fn: (ctx: Awaited<ReturnType<typeof createContext>>) => Promise<T>
 ): Promise<T> {
   const config = loadConfig();
+  renderStartupBanner(config);
   const logger = createLogger(config);
   logger.debug({ config: publicConfig(config) }, "configuration loaded");
   const db = openDatabase(config.DATABASE_PATH);
@@ -41,6 +46,7 @@ async function withContext<T>(
 
 async function createContext() {
   const config = loadConfig();
+  renderStartupBanner(config);
   const logger = createLogger(config);
   const db = openDatabase(config.DATABASE_PATH);
   const repo = new BackupRepository(db);

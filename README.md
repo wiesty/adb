@@ -37,6 +37,56 @@ docker run --rm --env-file .env \
   ghcr.io/wiesty/adb:latest
 ```
 
+Or run without an `.env` file by passing variables directly:
+
+```bash
+docker run --rm \
+  -e AUTODNS_BASE_URL=https://api.autodns.com/v1 \
+  -e AUTODNS_USERNAME=your-autodns-user \
+  -e AUTODNS_PASSWORD=your-autodns-password \
+  -e AUTODNS_CONTEXT=4 \
+  -e AUTODNS_USER_AGENT=tenbyte-autodns-backup/1.0 \
+  -e BACKUP_MODE=incremental \
+  -e BACKUP_CONCURRENCY=2 \
+  -e BACKUP_REQUESTS_PER_SECOND=2 \
+  -e BACKUP_REQUEST_TIMEOUT_MS=30000 \
+  -e BACKUP_MAX_RETRIES=5 \
+  -e FORCE_REEXPORT_AFTER_DAYS=7 \
+  -e MISSING_CONFIRMATION_RUNS=3 \
+  -e MAX_INVENTORY_DROP_PERCENT=1 \
+  -e MAX_FAILED_ZONES=5 \
+  -e INVENTORY_PAGE_SIZE=500 \
+  -e DATABASE_PATH=/data/backup.sqlite \
+  -e WORK_DIRECTORY=/data/work \
+  -e STORAGE_DRIVER=local \
+  -e LOCAL_BACKUP_PATH=/backup \
+  -e GIT_EXPORT_ENABLED=true \
+  -e GIT_EXPORT_PATH=/git-export \
+  -e GIT_EXPORT_WRITE_BIND=true \
+  -e LOG_LEVEL=info \
+  -e LOG_FORMAT=pretty \
+  -e LOG_BANNER=true \
+  -v autodns-data:/data \
+  -v "$PWD/backup:/backup" \
+  -v "$PWD/git-export:/git-export" \
+  ghcr.io/wiesty/adb:latest
+```
+
+For S3-compatible storage, replace the local storage variables with:
+
+```bash
+  -e STORAGE_DRIVER=s3 \
+  -e S3_ENDPOINT=https://s3.example.com \
+  -e S3_REGION=us-east-1 \
+  -e S3_BUCKET=dns \
+  -e S3_PREFIX=autodns \
+  -e S3_ACCESS_KEY_ID=your-access-key \
+  -e S3_SECRET_ACCESS_KEY=your-secret-key \
+  -e S3_FORCE_PATH_STYLE=true \
+  -e S3_SERVER_SIDE_ENCRYPTION= \
+  -e S3_KMS_KEY_ID= \
+```
+
 Select the command with `BACKUP_MODE`:
 
 ```env
@@ -61,9 +111,9 @@ cp .env.example .env
 Fill `.env`, then run:
 
 ```bash
-node --experimental-sqlite dist/src/cli/index.js inventory
-node --experimental-sqlite dist/src/cli/index.js incremental
-node --experimental-sqlite dist/src/cli/index.js verify
+npm run start -- inventory
+npm run start -- incremental
+npm run start -- verify
 ```
 
 Local Docker build:
@@ -119,6 +169,8 @@ BACKUP_MAX_RETRIES=5
 FORCE_REEXPORT_AFTER_DAYS=7
 STORAGE_DRIVER=s3
 GIT_EXPORT_ENABLED=true
+LOG_FORMAT=pretty
+LOG_BANNER=true
 ```
 
 AutoDNS documents 3 requests per second per IP. This client defaults to 2.
