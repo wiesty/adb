@@ -1,0 +1,28 @@
+services:
+  autodns-backup:
+    build: .
+    image: autodns-backup:local
+    env_file: .env
+    command: ["incremental"]
+    read_only: true
+    user: "10001:10001"
+    volumes:
+      - autodns-data:/data
+      - autodns-local-backup:/backup
+      - ./git-export:/git-export
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=64m
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+    restart: "no"
+
+volumes:
+  autodns-data:
+  autodns-local-backup:

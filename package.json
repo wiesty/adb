@@ -1,0 +1,39 @@
+{
+  "name": "autodns-backup",
+  "version": "1.0.0",
+  "description": "Production-ready export-only backup client for InterNetX AutoDNS DomainRobot DNS zones.",
+  "license": "PolyForm-Internal-Use-1.0.0",
+  "type": "module",
+  "bin": {
+    "autodns-backup": "./dist/src/cli/index.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "test": "NODE_OPTIONS=--experimental-sqlite vitest run",
+    "start": "node --experimental-sqlite dist/src/cli/index.js"
+  },
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.614.0",
+    "commander": "^12.1.0",
+    "pino": "^9.3.2",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.8.0",
+    "@types/node": "^22.5.0",
+    "eslint": "^9.8.0",
+    "globals": "^15.8.0",
+    "prettier": "^3.3.3",
+    "tsx": "^4.16.5",
+    "typescript": "^5.5.4",
+    "typescript-eslint": "^8.61.1",
+    "vitest": "^2.0.5"
+  },
+  "packageManager": "pnpm@9.6.0"
+}

@@ -1,0 +1,8 @@
+[Unit]
+Description=AutoDNS backup integrity verification
+
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/autodns-backup/env
+ExecStart=/usr/bin/docker run --rm --env-file /etc/autodns-backup/env -v autodns-data:/data -v autodns-local-backup:/backup autodns-backup:latest verify
+TimeoutStartSec=6h

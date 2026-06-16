@@ -1,0 +1,10 @@
+[Unit]
+Description=AutoDNS incremental DNS backup
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/autodns-backup/env
+ExecStart=/usr/bin/docker run --rm --env-file /etc/autodns-backup/env -v autodns-data:/data -v autodns-local-backup:/backup autodns-backup:latest incremental
+TimeoutStartSec=6h

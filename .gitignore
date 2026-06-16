@@ -1,0 +1,15 @@
+node_modules/
+dist/
+coverage/
+.DS_Store
+.env
+*.sqlite
+*.sqlite-*
+data/
+backup/
+.runner-data/
+.runner-work/
+work/
+/docs
+
+/git-export
