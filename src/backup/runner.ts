@@ -23,7 +23,9 @@ export class BackupRunner {
     private readonly logger: Logger
   ) {}
 
-  async run(type: "inventory" | "incremental" | "full"): Promise<{ runId: string; success: boolean }> {
+  async run(
+    type: "inventory" | "incremental" | "full"
+  ): Promise<{ runId: string; success: boolean }> {
     await this.storage.cleanupTemp?.();
     const gitExport = GitExportWriter.fromConfig(this.config);
     await gitExport.cleanupTemp();
@@ -42,7 +44,10 @@ export class BackupRunner {
           missingConfirmationRuns: this.config.MISSING_CONFIRMATION_RUNS,
           maxDropPercent: this.config.MAX_INVENTORY_DROP_PERCENT
         });
-        this.logger.info({ runId, inventoryCount: inventory.count, missingCount: inventory.missingCount }, "inventory refreshed");
+        this.logger.info(
+          { runId, inventoryCount: inventory.count, missingCount: inventory.missingCount },
+          "inventory refreshed"
+        );
       }
       if (type !== "inventory") this.enqueueJobs(runId, type);
       if (type !== "inventory") await this.processJobs(runId, gitExport);
@@ -66,7 +71,12 @@ export class BackupRunner {
         storageDriver: this.storage.name
       });
       const success = failed <= this.config.MAX_FAILED_ZONES;
-      this.repo.finishRun(runId, success ? "completed" : "failed", manifestKey, success ? undefined : "too many failed zones");
+      this.repo.finishRun(
+        runId,
+        success ? "completed" : "failed",
+        manifestKey,
+        success ? undefined : "too many failed zones"
+      );
       if (!success) {
         await sendAlert(this.config.ALERT_WEBHOOK_URL, this.logger, {
           severity: "critical",
@@ -78,7 +88,13 @@ export class BackupRunner {
       return { runId, success };
     } catch (error) {
       const sanitized = sanitizeError(error);
-      this.repo.recordError(runId, undefined, "critical", String(sanitized.message ?? "backup run failed"), sanitized);
+      this.repo.recordError(
+        runId,
+        undefined,
+        "critical",
+        String(sanitized.message ?? "backup run failed"),
+        sanitized
+      );
       this.repo.finishRun(runId, "failed", undefined, String(sanitized.message ?? error));
       await sendAlert(this.config.ALERT_WEBHOOK_URL, this.logger, {
         severity: "critical",
@@ -164,7 +180,10 @@ export class BackupRunner {
           });
           this.repo.skipCompletedDuplicate(job.id, latest.object_key, contentHash, recordCount);
           this.repo.markZoneBackedUp(job.zone_key, latest.object_key, contentHash);
-          log.info({ resultStatus: "deduplicated", objectKey: latest.object_key }, "zone unchanged");
+          log.info(
+            { resultStatus: "deduplicated", objectKey: latest.object_key },
+            "zone unchanged"
+          );
           continue;
         }
         const compressed = gzipJson(wrapper);
@@ -176,7 +195,8 @@ export class BackupRunner {
           `${timestampForPath()}.json.gz`
         );
         const stored = await this.storage.putObject(zonePath, compressed, "application/gzip");
-        if (stored.sha256 !== compressedSha) throw new Error(`stored hash mismatch for ${zonePath}`);
+        if (stored.sha256 !== compressedSha)
+          throw new Error(`stored hash mismatch for ${zonePath}`);
         let bindObjectKey: string | undefined;
         if (bind.zoneFile.trim()) {
           bindObjectKey = safeJoinKey(
@@ -230,16 +250,29 @@ export class BackupRunner {
       } catch (error) {
         const sanitized = sanitizeError(error);
         if (error instanceof AutoDnsHttpError && error.status === 404) {
-          this.repo.markZoneDeleted(job.id, "zone not found during detail fetch; inventory should be refreshed");
+          this.repo.markZoneDeleted(
+            job.id,
+            "zone not found during detail fetch; inventory should be refreshed"
+          );
           log.warn({ resultStatus: "deleted" }, "zone returned 404");
           continue;
         }
         if (error instanceof AutoDnsAuthError) throw error;
         if (job.attempts <= this.config.BACKUP_MAX_RETRIES) {
-          this.repo.retryJob(job.id, String(sanitized.message ?? error), Math.min(30000, 500 * 2 ** job.attempts));
+          this.repo.retryJob(
+            job.id,
+            String(sanitized.message ?? error),
+            Math.min(30000, 500 * 2 ** job.attempts)
+          );
         } else {
           this.repo.failJob(job.id, String(sanitized.message ?? error));
-          this.repo.recordError(runId, job.zone_key, "error", String(sanitized.message ?? "zone export failed"), sanitized);
+          this.repo.recordError(
+            runId,
+            job.zone_key,
+            "error",
+            String(sanitized.message ?? "zone export failed"),
+            sanitized
+          );
         }
         log.error({ error: sanitized, resultStatus: "failed" }, "zone export failed");
       }

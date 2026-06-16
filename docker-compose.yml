@@ -1,7 +1,7 @@
 services:
   autodns-backup:
     build: .
-    image: autodns-backup:local
+    image: ghcr.io/wiesty/adb:local
     env_file: .env
     command: ["incremental"]
     read_only: true

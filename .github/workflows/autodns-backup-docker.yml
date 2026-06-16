@@ -35,7 +35,7 @@ jobs:
           fetch-depth: 0
 
       - name: Build image
-        run: docker build -t autodns-backup:${{ github.sha }} .
+        run: docker build -t ghcr.io/wiesty/adb:${{ github.sha }} .
 
       - name: Prepare persistent directories
         run: |
@@ -73,7 +73,7 @@ jobs:
           MODE: ${{ inputs.mode || 'incremental' }}
         run: |
           docker run --rm \
-            --name autodns-backup-${{ github.run_id }} \
+            --name adb-backup-${{ github.run_id }} \
             --read-only \
             --cap-drop ALL \
             --security-opt no-new-privileges:true \
@@ -112,7 +112,7 @@ jobs:
             -v "$PWD/.runner-work:/data/work" \
             -v "$PWD/backup:/backup" \
             -v "$PWD/git-export:/git-export" \
-            autodns-backup:${{ github.sha }} "$MODE"
+            ghcr.io/wiesty/adb:${{ github.sha }} "$MODE"
 
       - name: Commit git export
         if: ${{ success() && (inputs.commit_git_export || github.event_name == 'schedule') }}

@@ -69,13 +69,13 @@ node --experimental-sqlite dist/src/cli/index.js verify
 Local Docker build:
 
 ```bash
-docker build -t autodns-backup:latest .
+docker build -t ghcr.io/wiesty/adb:local .
 docker run --rm --env-file .env \
   -e BACKUP_MODE=incremental \
   -v autodns-data:/data \
   -v "$PWD/backup:/backup" \
   -v "$PWD/git-export:/git-export" \
-  autodns-backup:latest
+  ghcr.io/wiesty/adb:local
 ```
 
 ## CLI

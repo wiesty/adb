@@ -1,7 +1,10 @@
 import type { BackupRepository } from "../database/repository.js";
 import type { StorageDriver } from "../storage/storage.js";
 
-export async function verifyBackups(repo: BackupRepository, storage: StorageDriver): Promise<{
+export async function verifyBackups(
+  repo: BackupRepository,
+  storage: StorageDriver
+): Promise<{
   checked: number;
   failed: Array<{ objectKey: string; reason: string }>;
 }> {
